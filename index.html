@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fabián Duarte — Economics, University of Chile</title>
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:ital,wght@0,300;0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --ink: #1a1a2e; --ink-light: #3a3a5c; --ink-muted: #6b6b8d;
+            --parchment: #faf8f4; --parchment-dark: #f0ece4;
+            --accent: #8b2500; --accent-light: #a83210; --accent-bg: #fdf6f3;
+            --rule: #d4cfc5; --rule-dark: #b8b2a4;
+            --shadow: rgba(26,26,46,0.06); --shadow-md: rgba(26,26,46,0.1);
+            --serif: 'Libre Baskerville','Georgia',serif;
+            --sans: 'Source Sans 3','Segoe UI',sans-serif;
+        }
+        *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+        html{scroll-behavior:smooth;scroll-padding-top:80px}
+        body{font-family:var(--sans);background:var(--parchment);color:var(--ink);line-height:1.7;font-size:16px;-webkit-font-smoothing:antialiased}
+
+        nav{position:sticky;top:0;z-index:100;background:rgba(250,248,244,0.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--rule);transition:box-shadow .3s}
+        nav.scrolled{box-shadow:0 2px 20px var(--shadow-md)}
+        .nav-inner{max-width:960px;margin:0 auto;padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:64px}
+        .nav-name{font-family:var(--serif);font-size:1.05rem;font-weight:700;color:var(--ink);text-decoration:none}
+        .nav-links{display:flex;gap:.2rem}
+        .nav-links a{font-family:var(--sans);font-size:.82rem;font-weight:600;color:var(--ink-muted);text-decoration:none;padding:.4rem .65rem;border-radius:6px;transition:all .2s;letter-spacing:.02em;text-transform:uppercase}
+        .nav-links a:hover,.nav-links a.active{color:var(--accent);background:var(--accent-bg)}
+        .menu-toggle{display:none;background:none;border:none;cursor:pointer;padding:.5rem}
+        .menu-toggle span{display:block;width:22px;height:2px;background:var(--ink);margin:5px 0;border-radius:2px}
+
+        .hero{max-width:960px;margin:0 auto;padding:5rem 2rem 4rem;display:grid;grid-template-columns:200px 1fr;gap:3rem;align-items:start}
+        .hero-photo{width:200px;height:250px;border-radius:8px;background:var(--parchment-dark);border:3px solid var(--rule);display:flex;align-items:center;justify-content:center;overflow:hidden}
+        .hero-photo .placeholder-icon{color:var(--rule-dark);font-size:3rem;opacity:.6}
+        .hero-info h1{font-family:var(--serif);font-size:2.4rem;font-weight:700;color:var(--ink);line-height:1.2;margin-bottom:.5rem;letter-spacing:-.02em}
+        .hero-info .title{font-size:1.1rem;color:var(--ink-muted);margin-bottom:.3rem;font-weight:300}
+        .hero-info .title-secondary{font-size:.95rem;color:var(--ink-muted);margin-bottom:1.25rem;font-weight:300}
+        .hero-info .bio{font-size:.98rem;color:var(--ink-light);line-height:1.8;max-width:580px}
+        .hero-contact{margin-top:1.5rem;display:flex;flex-wrap:wrap;gap:.6rem}
+        .hero-contact a{font-size:.82rem;font-weight:600;color:var(--accent);text-decoration:none;padding:.35rem .9rem;border:1.5px solid var(--accent);border-radius:5px;transition:all .2s}
+        .hero-contact a:hover{background:var(--accent);color:#fff}
+        .hero-contact a.cv-link{background:var(--accent);color:#fff}
+        .hero-contact a.cv-link:hover{background:var(--accent-light);border-color:var(--accent-light)}
+
+        .section{max-width:960px;margin:0 auto;padding:3.5rem 2rem;border-top:1px solid var(--rule)}
+        .section-title{font-family:var(--serif);font-size:1.5rem;font-weight:700;color:var(--ink);margin-bottom:.4rem}
+        .section-subtitle{font-size:.88rem;color:var(--ink-muted);margin-bottom:2rem}
+
+        .paper{padding:1.4rem 0;border-bottom:1px solid var(--rule)}
+        .paper:last-child{border-bottom:none}
+        .paper-title{font-family:var(--serif);font-size:1rem;font-weight:700;color:var(--ink);line-height:1.45;margin-bottom:.25rem}
+        .paper-title a{color:inherit;text-decoration:none;transition:color .2s}
+        .paper-title a:hover{color:var(--accent)}
+        .paper-authors{font-size:.87rem;color:var(--ink-muted);margin-bottom:.25rem}
+        .paper-venue{font-size:.84rem;font-style:italic;color:var(--ink-muted);margin-bottom:.4rem}
+        .paper-links{margin-top:.5rem;display:flex;gap:.75rem;flex-wrap:wrap}
+        .paper-links a{font-size:.76rem;font-weight:600;text-transform:uppercase;letter-spacing:.04em;color:var(--accent);text-decoration:none;border-bottom:1px solid transparent;transition:border-color .2s}
+        .paper-links a:hover{border-bottom-color:var(--accent)}
+        .paper-links a::before{content:"→ ";font-size:.7rem}
+        .paper-tag{display:inline-block;font-size:.7rem;font-weight:600;text-transform:uppercase;letter-spacing:.05em;padding:.15rem .5rem;border-radius:3px;margin-right:.4rem;margin-bottom:.3rem}
+        .tag-rnr{background:#fff3e0;color:#e65100}
+        .tag-revision{background:#e3f2fd;color:#1565c0}
+        .tag-wip{background:#f3e5f5;color:#7b1fa2}
+
+        .pub-year-group{margin-bottom:2rem}
+        .pub-year{font-family:var(--serif);font-size:1.1rem;font-weight:700;color:var(--accent);margin-bottom:.6rem;padding-bottom:.3rem;border-bottom:2px solid var(--accent);display:inline-block}
+
+        .course{display:grid;grid-template-columns:120px 1fr;gap:1.5rem;padding:1.1rem 0;border-bottom:1px solid var(--rule);align-items:start}
+        .course:last-child{border-bottom:none}
+        .course-period{font-size:.82rem;font-weight:600;color:var(--ink-muted);padding-top:.15rem}
+        .course-name{font-family:var(--serif);font-size:.98rem;font-weight:700;color:var(--ink);margin-bottom:.15rem}
+        .course-detail{font-size:.86rem;color:var(--ink-muted);line-height:1.6}
+
+        .project{padding:1.3rem 0;border-bottom:1px solid var(--rule)}
+        .project:last-child{border-bottom:none}
+        .project-title{font-family:var(--serif);font-size:.98rem;font-weight:700;color:var(--ink);margin-bottom:.25rem;line-height:1.4}
+        .project-desc{font-size:.88rem;color:var(--ink-muted);line-height:1.6}
+        .project-tags{margin-top:.4rem;display:flex;gap:.4rem;flex-wrap:wrap}
+        .project-tags span{font-size:.72rem;font-weight:600;color:var(--ink-muted);background:var(--parchment-dark);padding:.15rem .55rem;border-radius:3px}
+
+        .collapsible-toggle{background:none;border:1px solid var(--rule);padding:.5rem 1rem;font-family:var(--sans);font-size:.84rem;font-weight:600;color:var(--ink-muted);cursor:pointer;border-radius:5px;margin-top:1rem;transition:all .2s}
+        .collapsible-toggle:hover{border-color:var(--accent);color:var(--accent)}
+        .collapsible-content{display:none}
+        .collapsible-content.open{display:block}
+
+        footer{max-width:960px;margin:0 auto;padding:2.5rem 2rem;border-top:1px solid var(--rule);text-align:center;font-size:.82rem;color:var(--ink-muted)}
+        footer a{color:var(--accent);text-decoration:none}
+
+        .fade-in{opacity:0;transform:translateY(16px);animation:fadeUp .6s ease forwards}
+        @keyframes fadeUp{to{opacity:1;transform:translateY(0)}}
+        .fade-in:nth-child(2){animation-delay:.08s}
+        .fade-in:nth-child(3){animation-delay:.14s}
+
+        @media(max-width:700px){
+            .hero{grid-template-columns:1fr;padding:3rem 1.5rem 2.5rem;gap:1.5rem;text-align:center}
+            .hero-photo{width:150px;height:190px;margin:0 auto}
+            .hero-info h1{font-size:1.8rem}
+            .hero-info .bio{max-width:100%}
+            .hero-contact{justify-content:center}
+            .section{padding:2.5rem 1.5rem}
+            .course{grid-template-columns:1fr;gap:.3rem}
+            .nav-links{display:none;position:absolute;top:64px;left:0;right:0;background:rgba(250,248,244,0.98);flex-direction:column;padding:1rem;border-bottom:1px solid var(--rule);box-shadow:0 4px 20px var(--shadow-md)}
+            .nav-links.open{display:flex}
+            .menu-toggle{display:block}
+        }
+    </style>
+</head>
+<body>
+
+<nav id="navbar">
+    <div class="nav-inner">
+        <a href="#" class="nav-name">Fabián Duarte</a>
+        <button class="menu-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Menu">
+            <span></span><span></span><span></span>
+        </button>
+        <div class="nav-links">
+            <a href="#about" class="active">Bio</a>
+            <a href="#working-papers">Working Papers</a>
+            <a href="#publications">Publications</a>
+            <a href="#teaching">Teaching</a>
+            <a href="#projects">Projects</a>
+        </div>
+    </div>
+</nav>
+
+<section class="hero fade-in" id="about">
+    <div class="hero-photo">
+        <!-- Reemplaza con: <img src="tu-foto.jpg" alt="Fabián Duarte" style="width:100%;height:100%;object-fit:cover;"> -->
+        <span class="placeholder-icon">📷</span>
+    </div>
+    <div class="hero-info">
+        <h1>Fabián Duarte</h1>
+        <p class="title">Associate Professor of Economics · University of Chile</p>
+        <p class="title-secondary">Departmental Chair · Department of Economics, School of Economics and Business</p>
+        <p class="bio">
+            I am an applied microeconomist with research interests in <strong>health economics</strong>,
+            <strong>education</strong>, <strong>public economics</strong>, <strong>gender economics</strong>,
+            and <strong>industrial organization</strong>. I hold a Ph.D. in Economics from
+            <strong>Yale University</strong> (2010) and have previously worked as an Associate Economist
+            at the <strong>RAND Corporation</strong>. My work studies how health policy, cost-sharing, and behavioral
+            interventions shape health care utilization and outcomes, with a focus on Chile and Latin America.
+        </p>
+        <div class="hero-contact">
+            <a href="mailto:fabduarte@fen.uchile.cl">fabduarte@fen.uchile.cl</a>
+            <a href="#" class="cv-link">Download CV</a>
+            <a href="https://scholar.google.com/" target="_blank">Google Scholar</a>
+        </div>
+    </div>
+</section>
+
+<!-- WORKING PAPERS -->
+<section class="section fade-in" id="working-papers">
+    <h2 class="section-title">Working Papers</h2>
+    <p class="section-subtitle">Research in progress and circulating manuscripts</p>
+
+    <div class="paper">
+        <span class="paper-tag tag-rnr">R&R</span>
+        <h3 class="paper-title"><a href="#">Positive Income Shocks and Mental Health: Evidence from Pension Fund Withdrawals during the COVID-19 Pandemic in Chile</a></h3>
+        <p class="paper-authors">with Álvaro Jiménez-Molina</p>
+        <p class="paper-venue">R&R at Social Science and Medicine</p>
+        <div class="paper-links"><a href="#">PDF</a></div>
+    </div>
+
+    <div class="paper">
+        <span class="paper-tag tag-revision">Under Revision</span>
+        <h3 class="paper-title"><a href="#">Changes in Nutritional Status and Academic Achievement: Evidence from Chile</a></h3>
+        <p class="paper-authors">with Dante Contreras, Sebastián Gallardo, and Melanie Saavedra</p>
+        <p class="paper-venue">Under revision at International Journal of Educational Development</p>
+        <div class="paper-links"><a href="#">PDF</a></div>
+    </div>
+
+    <div class="paper">
+        <h3 class="paper-title"><a href="#">The Effect of Cost-Sharing on Health Care Utilization and Health Outcomes</a></h3>
+        <p class="paper-authors">with Srikanth Kadiyala</p>
+        <div class="paper-links"><a href="#">PDF</a></div>
+    </div>
+
+    <div class="paper">
+        <h3 class="paper-title"><a href="#">Price Elasticity of Demand in Chile's Private Health System: Evidence from a Quasi-Experiment</a></h3>
+        <p class="paper-authors">with Srikanth Kadiyala and Diego Menares</p>
+        <div class="paper-links"><a href="#">PDF</a></div>
+    </div>
+
+    <h3 style="font-family:var(--serif);font-size:1.1rem;color:var(--ink-muted);margin-top:2.5rem;margin-bottom:1rem;padding-top:1rem;border-top:1px dashed var(--rule);">Work in Progress</h3>
+
+    <div class="paper">
+        <span class="paper-tag tag-wip">WIP</span>
+        <h3 class="paper-title">Cost-Sharing Variation and Its Effects on Health Utilization</h3>
+        <p class="paper-authors">with Tomás Abbott</p>
+    </div>
+    <div class="paper">
+        <span class="paper-tag tag-wip">WIP</span>
+        <h3 class="paper-title">Heterogeneous Consumer Preferences in the Health Insurance Market in Chile</h3>
+    </div>
+    <div class="paper">
+        <span class="paper-tag tag-wip">WIP</span>
+        <h3 class="paper-title">Search Costs and Competition in a Health Insurance Market</h3>
+    </div>
+    <div class="paper">
+        <span class="paper-tag tag-wip">WIP</span>
+        <h3 class="paper-title">Switching Behavior and Pre-existing Conditions: The Case of the Chilean Health Insurance Market</h3>
+    </div>
+</section>
+
+<!-- PUBLICATIONS -->
+<section class="section fade-in" id="publications">
+    <h2 class="section-title">Publications</h2>
+    <p class="section-subtitle">Peer-reviewed journal articles</p>
+
+    <div class="pub-year-group">
+        <span class="pub-year">2025</span>
+        <div class="paper">
+            <h3 class="paper-title">"Crime and Mental Health: Examining the Associations between Perceived Insecurity, Crime Victimization, and Psychological Distress in Chile"</h3>
+            <p class="paper-authors">with Álvaro Jiménez-Molina and Ignacio Sarmiento</p>
+            <p class="paper-venue">Wellbeing, Space and Society, 2025</p>
+        </div>
+    </div>
+
+    <div class="pub-year-group">
+        <span class="pub-year">2024</span>
+        <div class="paper">
+            <h3 class="paper-title">"Impact of an Extension of Maternity Leave on Infant's Health"</h3>
+            <p class="paper-authors">with Cristóbal Bennett, Valentina Paredes, and Isabel Poblete</p>
+            <p class="paper-venue">Journal of Population Economics, Vol. 37, Article 11, 2024</p>
+        </div>
+    </div>
+
+    <div class="pub-year-group">
+        <span class="pub-year">2023</span>
+        <div class="paper">
+            <h3 class="paper-title">"Exploring the Impact of Social Protest on Mental Health: A Study of the 2019 'Social Uprising' in Chile"</h3>
+            <p class="paper-authors">with Álvaro Jiménez-Molina</p>
+            <p class="paper-venue">Social Science &amp; Medicine, November 2023</p>
+        </div>
+        <div class="paper">
+            <h3 class="paper-title">"Food and Nutrition Insecurity in College Students in the Context of the COVID-19 Pandemic"</h3>
+            <p class="paper-authors">with Daniel Egaña, Lorena Rodríguez, and Patricia Gálvez</p>
+            <p class="paper-venue">Rev Med Chile, 2023; 151: 296–305</p>
+        </div>
+    </div>
+
+    <div class="pub-year-group">
+        <span class="pub-year">2022</span>
+        <div class="paper">
+            <h3 class="paper-title">"Suicide and Quarantine during the COVID-19 Pandemic: Do We Know Everything?"</h3>
+            <p class="paper-authors">with Álvaro Jiménez-Molina</p>
+            <p class="paper-venue">Social Science &amp; Medicine, Vol. 309, 2022</p>
+        </div>
+        <div class="paper">
+            <h3 class="paper-title">"A Longitudinal Nationwide Study of Psychological Distress during the COVID-19 Pandemic in Chile"</h3>
+            <p class="paper-authors">with Álvaro Jiménez-Molina</p>
+            <p class="paper-venue">Frontiers in Psychiatry, 2022</p>
+        </div>
+    </div>
+
+    <button class="collapsible-toggle" onclick="toggleSection('older-pubs')">Show earlier publications (2004–2021) ▾</button>
+    <div class="collapsible-content" id="older-pubs">
+        <div class="pub-year-group" style="margin-top:1.5rem">
+            <span class="pub-year">2021</span>
+            <div class="paper">
+                <h3 class="paper-title">"Psychological Distress during the COVID-19 Epidemic in Chile: The Role of Economic Uncertainty"</h3>
+                <p class="paper-authors">with Álvaro Jiménez-Molina</p>
+                <p class="paper-venue">PLoS ONE, 16(11), 2021</p>
+            </div>
+            <div class="paper">
+                <h3 class="paper-title">"Encouraging Mammograms Using Behavioral Economics: A Randomized Controlled Trial in Chile"</h3>
+                <p class="paper-venue">Value in Health, Vol. 24, Issue 10, October 2021</p>
+            </div>
+            <div class="paper">
+                <h3 class="paper-title">"The Effect of the ACA on Cancer Detection Among the Near-Elderly"</h3>
+                <p class="paper-authors">with Srikanth Kadiyala, Gerald Kominski, and Antonia Riveros</p>
+                <p class="paper-venue">Health Affairs, 40(2), 2021</p>
+            </div>
+            <div class="paper">
+                <h3 class="paper-title">"El Impacto Emocional de la Pandemia en los Jóvenes: Sociabilidad, Conflictos, y Política"</h3>
+                <p class="paper-authors">with Rodrigo Asún, Irma Palma, and Roberto Aceituno</p>
+                <p class="paper-venue">Revista de Sociología, Vol. 36(1), 2021</p>
+            </div>
+        </div>
+        <div class="pub-year-group">
+            <span class="pub-year">2017</span>
+            <div class="paper">
+                <h3 class="paper-title">"The Cost of Dementia in an Unequal Country: The Case of Chile"</h3>
+                <p class="paper-authors">with Daniel Hojman, Jaime Ruiz-Tagle, et al.</p>
+                <p class="paper-venue">PLoS ONE, 12(3), 2017</p>
+            </div>
+            <div class="paper">
+                <h3 class="paper-title">"The Effect of the 2009 Influenza Pandemic on Absence from Work"</h3>
+                <p class="paper-authors">with Srikanth Kadiyala, Sam Masters, and David Powell</p>
+                <p class="paper-venue">Health Economics, January 2017</p>
+            </div>
+            <div class="paper">
+                <h3 class="paper-title">"Evaluación del Impacto del Plan Garantizado de Salud en la Elección entre Sistemas de Salud Público y Privado"</h3>
+                <p class="paper-authors">with Dalila Fernandes, Eduardo Bitrán, and Marcelo Villena</p>
+                <p class="paper-venue">Cepal Review, December 2017</p>
+            </div>
+        </div>
+        <div class="pub-year-group">
+            <span class="pub-year">2013</span>
+            <div class="paper">
+                <h3 class="paper-title">"Opportunities and Challenges in Supply-Side Simulation: Physician-Based Models"</h3>
+                <p class="paper-authors">with Carole Roan Gresenz and David Auerbach</p>
+                <p class="paper-venue">Health Services Research, Vol. 48, 2013</p>
+            </div>
+        </div>
+        <div class="pub-year-group">
+            <span class="pub-year">2012</span>
+            <div class="paper">
+                <h3 class="paper-title">"Price Elasticity of Expenditure across Health Care Services"</h3>
+                <p class="paper-venue">Journal of Health Economics, 31, 2012, 824–841</p>
+            </div>
+        </div>
+        <div class="pub-year-group">
+            <span class="pub-year">2004</span>
+            <div class="paper">
+                <h3 class="paper-title">"Arbitrary Lagrangian–Eulerian Method for Navier–Stokes Equations with Moving Boundaries"</h3>
+                <p class="paper-authors">with Raúl Gormaz and Srinivasan Natesan</p>
+                <p class="paper-venue">Computer Methods in Applied Mechanics and Engineering, 45(193), 2004</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- TEACHING -->
+<section class="section fade-in" id="teaching">
+    <h2 class="section-title">Teaching</h2>
+    <p class="section-subtitle">University of Chile, Department of Economics</p>
+
+    <div class="course">
+        <span class="course-period">2024–2025</span>
+        <div><h3 class="course-name">Introduction to Economics</h3><p class="course-detail">Undergraduate</p></div>
+    </div>
+    <div class="course">
+        <span class="course-period">2021–2025</span>
+        <div><h3 class="course-name">Mathematics I, II, III &amp; IV</h3><p class="course-detail">Undergraduate</p></div>
+    </div>
+    <div class="course">
+        <span class="course-period">2013–2024</span>
+        <div><h3 class="course-name">Microeconomics I</h3><p class="course-detail">Undergraduate</p></div>
+    </div>
+    <div class="course">
+        <span class="course-period">2024</span>
+        <div><h3 class="course-name">Thesis Workshop</h3><p class="course-detail">Master's in Economics</p></div>
+    </div>
+    <div class="course">
+        <span class="course-period">2014–2021</span>
+        <div><h3 class="course-name">Advanced Mathematics</h3><p class="course-detail">Undergraduate</p></div>
+    </div>
+    <div class="course">
+        <span class="course-period">2017–2019</span>
+        <div><h3 class="course-name">Economics of Gender</h3><p class="course-detail">Undergraduate</p></div>
+    </div>
+    <div class="course">
+        <span class="course-period">2014–2016</span>
+        <div><h3 class="course-name">Regulation in Imperfect Markets</h3><p class="course-detail">Master's in Economics</p></div>
+    </div>
+    <div class="course">
+        <span class="course-period">2013–2016</span>
+        <div><h3 class="course-name">Industrial Organization</h3><p class="course-detail">Undergraduate</p></div>
+    </div>
+
+    <button class="collapsible-toggle" onclick="toggleSection('earlier-teaching')">Show earlier teaching (Yale, RAND, BID) ▾</button>
+    <div class="collapsible-content" id="earlier-teaching">
+        <div class="course" style="margin-top:1rem">
+            <span class="course-period">2014</span>
+            <div><h3 class="course-name">Project Evaluation</h3><p class="course-detail">BID employees · Washington DC &amp; Managua</p></div>
+        </div>
+        <div class="course">
+            <span class="course-period">2011–2012</span>
+            <div><h3 class="course-name">Game Theory</h3><p class="course-detail">Pardee RAND Graduate School</p></div>
+        </div>
+        <div class="course">
+            <span class="course-period">2007–2010</span>
+            <div><h3 class="course-name">Teaching Fellow</h3><p class="course-detail">Yale University · Public Economics, Game Theory, Intermediate &amp; Intro Microeconomics</p></div>
+        </div>
+    </div>
+</section>
+
+<!-- PROJECTS -->
+<section class="section fade-in" id="projects">
+    <h2 class="section-title">Projects</h2>
+    <p class="section-subtitle">Selected consulting, surveys, and policy advisory work</p>
+
+    <div class="project">
+        <h3 class="project-title">CASEN Survey</h3>
+        <p class="project-desc">Project Director · Ministry of Social Development and Family, 2024</p>
+        <div class="project-tags"><span>Survey</span><span>Public Policy</span></div>
+    </div>
+    <div class="project">
+        <h3 class="project-title">Reduction of Working Hours Bill (40 Hours)</h3>
+        <p class="project-desc">Technical advisory services, Project Director · Ministry of Labor, 2023</p>
+        <div class="project-tags"><span>Labor Policy</span><span>Advisory</span></div>
+    </div>
+    <div class="project">
+        <h3 class="project-title">ELPI Survey</h3>
+        <p class="project-desc">Project Director · Ministry of Social Development and Family, 2023</p>
+        <div class="project-tags"><span>Survey</span><span>Early Childhood</span></div>
+    </div>
+    <div class="project">
+        <h3 class="project-title">ENUSC Survey</h3>
+        <p class="project-desc">Project Director · Undersecretary of Crime Prevention, 2023</p>
+        <div class="project-tags"><span>Survey</span><span>Public Safety</span></div>
+    </div>
+    <div class="project">
+        <h3 class="project-title">Universal Old-Age Basic Pension</h3>
+        <p class="project-desc">Benefits, cost estimates, and financing alternatives · Project Director · Undersecretary of Social Security, 2021</p>
+        <div class="project-tags"><span>Pensions</span><span>Policy Design</span></div>
+    </div>
+    <div class="project">
+        <h3 class="project-title">Millennium Nucleus on Social Development</h3>
+        <p class="project-desc">Principal Investigator · Millennium Initiative, Ministry of Economy, 2018–2021 · US$300,000</p>
+        <div class="project-tags"><span>Research Grant</span><span>Social Development</span></div>
+    </div>
+
+    <button class="collapsible-toggle" onclick="toggleSection('more-projects')">Show more projects ▾</button>
+    <div class="collapsible-content" id="more-projects">
+        <div class="project" style="margin-top:1rem">
+            <h3 class="project-title">Longitudinal Study on Conflict and Social Cohesion (COES)</h3>
+            <p class="project-desc">Project Director · 4th &amp; 5th rounds, 2019–2023</p>
+            <div class="project-tags"><span>Longitudinal</span><span>Social Cohesion</span></div>
+        </div>
+        <div class="project">
+            <h3 class="project-title">National Survey on Disability and Dependency</h3>
+            <p class="project-desc">Deputy Project Director · Ministry of Social Development, 2021</p>
+            <div class="project-tags"><span>Survey</span><span>Disability</span></div>
+        </div>
+        <div class="project">
+            <h3 class="project-title">Quarterly Employment Survey — Greater Santiago</h3>
+            <p class="project-desc">Project Director · Central Bank of Chile, 2018–2019</p>
+            <div class="project-tags"><span>Employment</span><span>Central Bank</span></div>
+        </div>
+        <div class="project">
+            <h3 class="project-title">Fondecyt Iniciación — Behavioral Economics &amp; Mammograms</h3>
+            <p class="project-desc">Principal Investigator, 2015–2018 · US$150,000</p>
+            <div class="project-tags"><span>Research Grant</span><span>Behavioral Economics</span></div>
+        </div>
+        <div class="project">
+            <h3 class="project-title">NIH — Effect of Cost-Sharing on Health Care Utilization</h3>
+            <p class="project-desc">Principal Investigator, 2013–2015 · US$250,000</p>
+            <div class="project-tags"><span>NIH</span><span>Health Economics</span></div>
+        </div>
+        <div class="project">
+            <h3 class="project-title">NCI — Welfare Consequences of Oncology Drug Shortages</h3>
+            <p class="project-desc">Co-Investigator, 2013–2015 · US$250,000</p>
+            <div class="project-tags"><span>NCI</span><span>Oncology</span></div>
+        </div>
+        <div class="project">
+            <h3 class="project-title">Comparative Review — Labor Informality and Pension Savings</h3>
+            <p class="project-desc">Economist · Undersecretary of Social Security, 2024</p>
+            <div class="project-tags"><span>Pensions</span><span>Labor</span></div>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <p>Fabián Duarte · Department of Economics · University of Chile</p>
+    <p style="margin-top:.25rem">Diagonal Paraguay 257 · Santiago, Chile · <a href="mailto:fabduarte@fen.uchile.cl">fabduarte@fen.uchile.cl</a> · (+56) 2 2978-3428</p>
+</footer>
+
+<script>
+    const nav = document.getElementById('navbar');
+    window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 10));
+
+    const sections = document.querySelectorAll('section[id], .hero[id]');
+    const navLinks = document.querySelectorAll('.nav-links a');
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                navLinks.forEach(l => l.classList.remove('active'));
+                const link = document.querySelector('.nav-links a[href="#'+entry.target.id+'"]');
+                if (link) link.classList.add('active');
+            }
+        });
+    }, { rootMargin: '-30% 0px -60% 0px' });
+    sections.forEach(s => observer.observe(s));
+
+    navLinks.forEach(link => link.addEventListener('click', () => document.querySelector('.nav-links').classList.remove('open')));
+
+    function toggleSection(id) {
+        const el = document.getElementById(id);
+        const btn = el.previousElementSibling;
+        el.classList.toggle('open');
+        if (el.classList.contains('open')) {
+            btn.textContent = btn.textContent.replace('▾','▴').replace('Show','Hide');
+        } else {
+            btn.textContent = btn.textContent.replace('▴','▾').replace('Hide','Show');
+        }
+    }
+</script>
+
+</body>
+</html>
